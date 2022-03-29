@@ -1,29 +1,43 @@
-
+require('node-fetch');
+const constants = require('../js/Constants.js');
 
 const electron = require('@electron/remote');
 const net = electron.net;
 
+
+
 module.exports = {
-  login: function() {
-    const request = net.request({
-      method: 'GET',
-      protocol: 'https:',
-      hostname: 'httpbin.org/',
-      path: '/get',    
+  login: async function(email, password) {  
+    let loginBody = {
+      email: email,
+      password: password
+    }
+
+    const response = await fetch(constants.ApiUrl + constants.AuthLoginRoute, {
+      method: 'post',
+      body: JSON.stringify(loginBody),
+      headers: {'Content-Type': 'application/json'}
     });
     
-    request.on('response', (response) => {
-      console.log(`STATUS: ${response.statusCode}, ${response.statusMessage}`);
-      console.log(`HEADERS: ${JSON.stringify(response.headers)}`);
 
-      response.on('data', (chunk) => {
-          console.log(`BODY: ${chunk}`)
-      });
-    });
-    request.end();
+    console.log(await `STATUS: ${response.status}, ${response.statusText}`);    
+    console.log(await response.json());
   },
 
-  register: function() {
-    console.log('test');
+  register: async function(email, password) {  
+    let registerBody = {
+      email: email,
+      password: password
+    }
+
+    const response = await fetch(constants.ApiUrl + constants.AuthRegisterRoute, {
+      method: 'post',
+      body: JSON.stringify(registerBody),
+      headers: {'Content-Type': 'application/json'}
+    });
+    
+
+    console.log(await `STATUS: ${response.status}, ${response.statusText}`);    
+    console.log(await response.json());
   }
 };

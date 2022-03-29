@@ -1,8 +1,8 @@
 const registerButton = document.getElementById("registerButton");
 
-const loginRegisterModule = require('../js/loginRegisterModule');
+const registerModule = require('../js/loginRegisterModule.js');
 
 registerButton.addEventListener('click', () => {
-  loginRegisterModule.register();
+  registerModule.register();
 });
 
