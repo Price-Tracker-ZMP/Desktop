@@ -32,7 +32,7 @@ registerButton.addEventListener('click', () => {
   loginModule.register(emailRegisterInput.value, passRegisterInput.value);
 });
 
-const switchViewPage = document.getElementById("switchViewPage");
+const switchViewPage = document.getElementById("switchViewPageLink");
 switchViewPage.addEventListener('click', () => {  
   SwitchBetweenLoginRegister();
 })
@@ -45,13 +45,15 @@ function SwitchBetweenLoginRegister()
   {
     ToggleForm('loginForm', false);
     ToggleForm('registerForm', true);
-    switchViewPage.innerHTML = "I have an account";
+    document.getElementById('switchViewPageText').innerHTML = "Already have an account?";
+    switchViewPage.innerHTML = "Log in";
     OnLoginForm = false;
   }
   else {          // Change to Login Form
     ToggleForm('registerForm', false);
     ToggleForm('loginForm', true);
-    switchViewPage.innerHTML = "I don't have an account";
+    document.getElementById('switchViewPageText').innerHTML = "Don't have an account yet?";
+    switchViewPage.innerHTML = "Register";
     OnLoginForm = true;
   }
   
