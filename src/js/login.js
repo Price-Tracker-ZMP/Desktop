@@ -1,6 +1,6 @@
 ToggleForm('registerForm', false);
 const keytar = require('keytar');
-const loginModule = require('../js/loginRegisterModule.js');
+const loginModule = require('../js/Api.js');
 
 
 const emailLoginInput = document.getElementById('emailLoginInput');
@@ -72,6 +72,6 @@ function ToggleForm(formId, enable)
   var form = document.getElementById(formId);
   var elements = form.elements;
   for (var i = 0, len = elements.length; i < len; ++i) {
-      elements[i].disabled =  enable ? false : true;
+      //elements[i].disabled =  enable ? false : true;
   }
 }
