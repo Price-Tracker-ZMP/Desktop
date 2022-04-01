@@ -20,8 +20,9 @@ const createWindow = () => {
 
   });
 
+  
   require('@electron/remote/main').initialize();
-  require("@electron/remote/main").enable(mainWindow.webContents);
+  require('@electron/remote/main').enable(mainWindow.webContents);
 
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, 'html/login.html'));

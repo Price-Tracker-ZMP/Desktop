@@ -1,5 +1,7 @@
-require('node-fetch');
-const constants = require('../js/Constants.js');
+const fetch = require('node-fetch');
+const keytar = require('keytar');
+const constants = require('./Constants.js');
+
 
 const electron = require('@electron/remote');
 const net = electron.net;
@@ -21,7 +23,11 @@ module.exports = {
     
 
     console.log(await `STATUS: ${response.status}, ${response.statusText}`);    
-    console.log(await response.json());
+    responseJson = await response.json();
+    console.log(responseJson);
+    
+    if (responseJson.status)
+      await keytar.setPassword("PriceTracker", "userToken", responseJson.content);
   },
 
   register: async function(email, password) {  
