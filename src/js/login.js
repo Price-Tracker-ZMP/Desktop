@@ -1,6 +1,6 @@
 ToggleForm('registerForm', false);
 const keytar = require('keytar');
-const loginModule = require('../js/Api.js');
+const AuthApi = require('../js/Api.js');
 
 
 const emailLoginInput = document.getElementById('emailLoginInput');
@@ -8,7 +8,7 @@ const passLoginInput = document.getElementById('passLoginInput');
 
 const loginButton = document.getElementById("loginButton");
 loginButton.addEventListener('click', () => {
-  loginModule.login(emailLoginInput.value, passLoginInput.value).then(result =>
+  AuthApi.login(emailLoginInput.value, passLoginInput.value).then(result =>
     keytar.getPassword("PriceTracker", "userToken").then(token => 
       document.getElementById("testCookie").innerHTML = token
       )
@@ -35,7 +35,7 @@ const passRegisterInput = document.getElementById('passRegisterInput');
 
 const registerButton = document.getElementById("registerButton");
 registerButton.addEventListener('click', () => {
-  loginModule.register(emailRegisterInput.value, passRegisterInput.value);  
+  AuthApi.register(emailRegisterInput.value, passRegisterInput.value);  
 });
 
 const switchViewPage = document.getElementById("switchViewPageLink");
