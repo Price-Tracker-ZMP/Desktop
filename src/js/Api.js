@@ -4,7 +4,7 @@ const keytar = require('keytar');
 const ApiURL = "https://zmp-price-tracker.herokuapp.com"
 
 class ApiService {  
-  
+
   async login(email, password) {  
     let loginBody = {
       email: email,
@@ -14,7 +14,7 @@ class ApiService {
     let token;
     await axios.post(ApiURL + '/Auth/Login', loginBody).then(response => {
       LogResponse(response);
-            
+      console.log(response);
       if (response.data.status)
         token = response.data.content;
 
@@ -41,6 +41,16 @@ function LogResponse(response)
 {
   console.log(`STATUS: ${response.status}, ${response.statusText}`);        
   console.log(response.data);
+}
+
+function getToken() {
+  keytar.getPassword("PriceTracker", "userToken").then(token => {
+    return {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+  });
 }
 
 const API = new ApiService();
