@@ -1,19 +1,21 @@
 ToggleForm('registerForm', false);
-const keytar = require('keytar');
-const AuthApi = require('../js/Api.js');
 
+if (window.electron.getGlobal('isAuthenticated')) { //Check if already logged in
+  // TODO: Check if the token is still valid
+
+  // If token is still valid: move to the main page
+  window.electron.newWindow('index');
+}
 
 const emailLoginInput = document.getElementById('emailLoginInput');
 const passLoginInput = document.getElementById('passLoginInput');
 
 const loginButton = document.getElementById("loginButton");
 loginButton.addEventListener('click', () => {
-  AuthApi.login(emailLoginInput.value, passLoginInput.value).then(result =>
-    keytar.getPassword("PriceTracker", "userToken").then(token => 
-      document.getElementById("testCookie").innerHTML = token
-      )
-  );
-  
+  window.auth.login(emailLoginInput.value, passLoginInput.value).then(result => {
+    if (result)
+      window.electron.newWindow('index');
+  });  
 });
 
 function searchKeyPress(e)
@@ -35,7 +37,7 @@ const passRegisterInput = document.getElementById('passRegisterInput');
 
 const registerButton = document.getElementById("registerButton");
 registerButton.addEventListener('click', () => {
-  AuthApi.register(emailRegisterInput.value, passRegisterInput.value);  
+  window.auth.register(emailRegisterInput.value, passRegisterInput.value);  
 });
 
 const switchViewPage = document.getElementById("switchViewPageLink");
@@ -72,6 +74,7 @@ function ToggleForm(formId, enable)
   var form = document.getElementById(formId);
   var elements = form.elements;
   for (var i = 0, len = elements.length; i < len; ++i) {
-      //elements[i].disabled =  enable ? false : true;
+      elements[i].disabled =  enable ? false : true;
+      elements[i].value = '';
   }
 }

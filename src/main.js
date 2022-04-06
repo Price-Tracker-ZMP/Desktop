@@ -1,5 +1,7 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
+const keytar = require("keytar");
+require('@electron/remote/main').initialize();
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -7,34 +9,59 @@ if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
-const createWindow = () => {
-  // Create the browser window.
+const createLoginWindow = () => {
+  const loginWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    autoHideMenuBar: true,
+    webPreferences: {
+      nodeIntegration: true,
+      preload: path.join(__dirname, 'js/preload.js')
+  }
+  });
+  windowSetup(loginWindow, 'html/login.html');
+  
+};
+
+const createMainWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
     autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false,
+      preload: path.join(__dirname, 'js/preload.js')
   }
-
   });
-
+  windowSetup(mainWindow, 'html/index.html');
   
-  require('@electron/remote/main').initialize();
-  require('@electron/remote/main').enable(mainWindow.webContents);
-
-  // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, 'html/login.html'));
-
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
 };
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+const windowSetup = (window, page) => {
+  require('@electron/remote/main').enable(window.webContents);
+
+  // Load the page
+  window.loadFile(path.join(__dirname, page));
+
+  // Open the DevTools.
+  window.webContents.openDevTools();
+}
+
+
+global.isAuthenticated = false;
+keytar.getPassword("PriceTracker", "userToken").then(result => {
+  if (result != undefined)
+    global.isAuthenticated = true;
+});
+
+ipcMain.on('set-authenticated', (event, state) => {
+  global.isAuthenticated = state;
+});
+
+app.on('ready', createLoginWindow);
+
+ipcMain.on('open-index', createMainWindow);
+ipcMain.on('open-login', createLoginWindow);
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
@@ -52,7 +79,3 @@ app.on('activate', () => {
     createWindow();
   }
 });
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and import them here.
-
