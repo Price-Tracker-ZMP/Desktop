@@ -15,7 +15,6 @@ const createLoginWindow = () => {
     height: 600,
     autoHideMenuBar: true,
     webPreferences: {
-      nodeIntegration: true,
       preload: path.join(__dirname, 'js/preload.js')
   }
   });
@@ -29,7 +28,6 @@ const createMainWindow = () => {
     height: 800,
     autoHideMenuBar: true,
     webPreferences: {
-      nodeIntegration: true,
       preload: path.join(__dirname, 'js/preload.js')
   }
   });
