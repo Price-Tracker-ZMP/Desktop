@@ -47,6 +47,26 @@ class ApiService {
     ipcRenderer.send('set-authenticated', false)
   }
 
+  async userInfo() {
+    let body = {
+      token: await keytar.getPassword("PriceTracker", "userToken")
+    }
+
+    await axios.get(ApiURL + '/user-email', body).then(response => {
+      LogResponse(response);   
+    }).catch((err) => {console.log(err.response)});
+  }
+
+  async userInfo() {
+    let body = {
+      token: await keytar.getPassword("PriceTracker", "userToken")
+    }
+
+    await axios.get(ApiURL + '/user-email', body).then(response => {
+      LogResponse(response);   
+    }).catch((err) => {console.log(err.response)});
+  }
+
 }
 
 function LogResponse(response)
@@ -55,7 +75,7 @@ function LogResponse(response)
   console.log(response.data);
 }
 
-function getToken() {
+/*function getToken() {
   keytar.getPassword("PriceTracker", "userToken").then(token => {
     return {
       headers: {
@@ -63,7 +83,7 @@ function getToken() {
       },
     };
   });
-}
+}*/
 
 const API = new ApiService();
 

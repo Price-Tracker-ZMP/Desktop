@@ -17,8 +17,10 @@ contextBridge.exposeInMainWorld('token', {
     getToken: () => keytar.getPassword("PriceTracker", "userToken"),
 })
 
-contextBridge.exposeInMainWorld('auth', {
+contextBridge.exposeInMainWorld('api', {
     login: (email, password) => AuthApi.login(email, password),
     register: (email, password) => AuthApi.register(email, password),
     logout: () => AuthApi.logout(),
+
+    userInfo: () => AuthApi.userInfo(),
 })

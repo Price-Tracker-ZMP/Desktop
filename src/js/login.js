@@ -12,7 +12,7 @@ const passLoginInput = document.getElementById('passLoginInput');
 
 const loginButton = document.getElementById("loginButton");
 loginButton.addEventListener('click', () => {
-  window.auth.login(emailLoginInput.value, passLoginInput.value).then(result => {
+  window.api.login(emailLoginInput.value, passLoginInput.value).then(result => {
     if (result)
       window.electron.newWindow('index');
   });  
@@ -37,7 +37,7 @@ const passRegisterInput = document.getElementById('passRegisterInput');
 
 const registerButton = document.getElementById("registerButton");
 registerButton.addEventListener('click', () => {
-  window.auth.register(emailRegisterInput.value, passRegisterInput.value);  
+  window.api.register(emailRegisterInput.value, passRegisterInput.value);  
 });
 
 const switchViewPage = document.getElementById("switchViewPageLink");
