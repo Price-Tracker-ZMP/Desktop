@@ -17,16 +17,16 @@ function GenerateListElement() {
   let discountPercent = 50;
 
   let html = `
-  <tr class="d-flex">
+  <tr class="d-flex align-items-center">
     <td>              
       <img src="#" width="100" height="${listElementHeight}"/>
     </td>
 
     <td class="col-5">                          
-      <span class="font-weight-bold">${gameTitle}</span>              
+      <span class="game-title">${gameTitle}</span>              
     </td>
 
-    <td class="col d-flex flex-row-reverse">              
+    <td class="col d-flex align-items-center flex-row-reverse">             
       <div class="discountPrice">
         <div class="discountPrice originalPrice text-muted">€${originalPrice/100}</div><br>
         <div class="discountPrice">€${discountPrice/100}</div>

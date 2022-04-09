@@ -4,21 +4,27 @@ body {
   margin: auto;
 }
 
+.game-title {
+  font-weight: 500;
+}
+
 .discountPrice {
   display: inline-block;
   line-height: 1;
   text-align: right;
   align-self: center;
   vertical-align: middle;
-  font-style: italic;
+  
   font-size: 18px;
 }
 
 .originalPrice {
   font-size: 11px;
   text-decoration: line-through;
+  font-style: italic;
 }
 
 .discountPercent {
   margin: 0 15px;
+  font-size: 18px;
 }
