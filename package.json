@@ -1,8 +1,8 @@
 {
-  "name": "my-app",
-  "productName": "my-app",
+  "name": "PriceTracker",
+  "productName": "Steam Price Tracker",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "Electron Application to track Steam game prices",
   "main": "src/main.js",
   "scripts": {
     "start": "electron-forge start",

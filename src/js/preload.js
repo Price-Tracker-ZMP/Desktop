@@ -1,14 +1,17 @@
 const { contextBridge, ipcRenderer, ipcMain } = require('electron')
 const keytar = require('keytar');
-const AuthApi = require('../js/Api.js');
+const Api = require('../js/Api.js');
 const remote = require("@electron/remote")
+const listElementBuilder = require('../js/ListElementBuilder.js');
 
 contextBridge.exposeInMainWorld('electron', {
     getGlobal: (name) => remote.getGlobal(name),
     newWindow: (name) => {
         ipcRenderer.send('open-' + name);
         remote.getCurrentWindow().close();
-    }    
+    },
+
+    listElementBuilder: listElementBuilder
 })
 
 contextBridge.exposeInMainWorld('token', {
@@ -17,8 +20,11 @@ contextBridge.exposeInMainWorld('token', {
     getToken: () => keytar.getPassword("PriceTracker", "userToken"),
 })
 
-contextBridge.exposeInMainWorld('auth', {
-    login: (email, password) => AuthApi.login(email, password),
-    register: (email, password) => AuthApi.register(email, password),
-    logout: () => AuthApi.logout(),
+contextBridge.exposeInMainWorld('api', {
+    login: (email, password) => Api.login(email, password),
+    register: (email, password) => Api.register(email, password),
+    logout: () => Api.logout(),
+
+    userInfo: () => Api.userInfo(),
+    userGames: () => Api.userGames(),
 })
