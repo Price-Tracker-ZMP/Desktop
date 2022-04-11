@@ -8,13 +8,13 @@ body {
   font-weight: 500;
 }
 
-.discountPrice {
+.priceDisplay {
   display: inline-block;
   line-height: 1;
   text-align: right;
   align-self: center;
   vertical-align: middle;
-  
+  width: 81px;
   font-size: 18px;
 }
 
@@ -27,4 +27,12 @@ body {
 .discountPercent {
   margin: 0 15px;
   font-size: 18px;
+}
+
+.table tr {
+  border-top: 1px solid #dee2e6;
+}
+
+.table td {
+  border: none;
 }

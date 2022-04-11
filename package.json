@@ -1,8 +1,8 @@
 {
-  "name": "my-app",
-  "productName": "my-app",
+  "name": "PriceTracker",
+  "productName": "Steam Price Tracker",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "Electron Application to track Steam game prices",
   "main": "src/main.js",
   "scripts": {
     "start": "electron-forge start",
@@ -48,7 +48,8 @@
     "@electron/remote": "^2.0.5",
     "axios": "^0.26.1",
     "electron-squirrel-startup": "^1.0.0",
-    "keytar": "^7.9.0"
+    "keytar": "^7.9.0",
+    "node-fetch": "^2.6.7"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.63",
