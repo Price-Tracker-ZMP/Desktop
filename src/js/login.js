@@ -1,15 +1,5 @@
 ToggleForm('registerForm', false);
 
-if (window.electron.getGlobal('isAuthenticated')) { //Check if already logged in
-  // TODO: Check if the token is still valid
-
-  // TODO: Move this to main window, check email while hidden, open login window if verification fails
-  // If instead the verification succeeds - show the main window
-
-  // If token is still valid: move to the main page
-  window.electron.newWindow('index');
-}
-
 const emailLoginInput = document.getElementById('emailLoginInput');
 const passLoginInput = document.getElementById('passLoginInput');
 

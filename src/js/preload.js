@@ -10,6 +10,7 @@ contextBridge.exposeInMainWorld('electron', {
         ipcRenderer.send('open-' + name);
         remote.getCurrentWindow().close();
     },
+    showLoading: () => ipcRenderer.send('show-loading'),
 
     listElementBuilder: listElementBuilder
 })

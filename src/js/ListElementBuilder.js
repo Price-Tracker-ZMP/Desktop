@@ -1,4 +1,4 @@
-const listElementHeight = 47;
+const imageSize = 120;
 
 let steamID = 0;
 let gameTitle = "Title";
@@ -36,7 +36,7 @@ module.exports = {
         let html = `
         <tr class="d-flex align-items-center">
         <td>              
-            <img src="https://cdn.akamai.steamstatic.com/steam/apps/${steamID}/header.jpg" width="100" height="${listElementHeight}"/>
+            <img src="https://cdn.akamai.steamstatic.com/steam/apps/${steamID}/header.jpg" width="${imageSize}" height="${imageSize * (215/460)}"/>
         </td>
 
         <td class="col-5">                          

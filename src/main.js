@@ -9,6 +9,26 @@ if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
+const createLoadingWindow = () => {
+  const loadingWindow = new BrowserWindow({
+    width: 400,
+    height: 300,
+    resizable: false,
+    titleBarStyle: 'hidden', 
+    autoHideMenuBar: true,
+    show: false,
+    webPreferences: {
+      preload: path.join(__dirname, 'js/preload.js')
+  }
+  });
+
+  ipcMain.on('show-loading', () => {
+    loadingWindow.show();
+  })
+
+  windowSetup(loadingWindow, 'html/loading.html');
+};
+
 const createLoginWindow = () => {
   const loginWindow = new BrowserWindow({
     width: 800,
@@ -20,6 +40,7 @@ const createLoginWindow = () => {
       preload: path.join(__dirname, 'js/preload.js')
   }
   });
+
   windowSetup(loginWindow, 'html/login.html');
   
 };
@@ -38,7 +59,6 @@ const createMainWindow = () => {
   }
   });
   windowSetup(mainWindow, 'html/index.html');
-  
 };
 
 const windowSetup = (window, page) => {
@@ -62,7 +82,7 @@ ipcMain.on('set-authenticated', (event, state) => {
   global.isAuthenticated = state;
 });
 
-app.on('ready', createLoginWindow);
+app.on('ready', createLoadingWindow);
 
 ipcMain.on('open-index', createMainWindow);
 ipcMain.on('open-login', createLoginWindow);

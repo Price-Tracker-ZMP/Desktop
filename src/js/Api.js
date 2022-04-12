@@ -1,9 +1,6 @@
 const axios = require('axios');
-const remote = require('@electron/remote');
 const keytar = require('keytar');
 const { ipcRenderer } = require('electron');
-const fetch = require('node-fetch');
-
 const ApiURL = "https://zmp-price-tracker.herokuapp.com"
 
 class ApiService {  
@@ -65,8 +62,11 @@ class ApiService {
 
   async userGames() {    
     return axios.get(ApiURL + '/user-info/user-games', await getConfig()).then(response => {
-      LogResponse(response);   
-      return response.data.content;
+      LogResponse(response);  
+      if (response.data.status)
+        return response.data.content;
+      else 
+        return false;
     }).catch((err) => {console.log(err.response)}); 
   }
 

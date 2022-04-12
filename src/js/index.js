@@ -8,7 +8,6 @@ logoutButton.addEventListener('click', () => {
   
 });
 
-// TODO: If failed to get the email, go to login window
 const emailDisplay = document.getElementById('emailDisplay');
 window.api.userInfo().then(email =>
   emailDisplay.innerHTML = email);
