@@ -1,7 +1,26 @@
+const imageSize = 180;
+
+
 module.exports = {
 
-    gameDetailDisplay: (game) => {
-        return game.name;
+    gameDetailDisplay: (game, index) => {
+        return `
+            <table class="table">
+            <tr>
+                <td class="col">
+                <h5>${game.name}</h5>
+                </td>
+                <td class="col">
+                <img src="https://cdn.akamai.steamstatic.com/steam/apps/${game.steam_appid}/header.jpg" width="${imageSize}" height="${imageSize * (215/460)}">
+                </td>        
+            </tr>
+            </table>
+            <div>
+            test
+            </div>
+
+            <button class="btn btn-danger stopObservingButton" onclick="stopObserving(${index})">Stop Observing</button>
+        `
     },
 
 

@@ -55,7 +55,13 @@ body {
   height: 70%;
   min-width: 300px;
   min-height: 300px;
-  padding: 25px;
+  padding: 20px;
+}
+
+.stopObservingButton {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
 }
 
 .addGame {

@@ -1,9 +1,9 @@
 const { contextBridge, ipcRenderer, ipcMain } = require('electron')
 const keytar = require('keytar');
-const Api = require('../js/Api.js');
+const Api = require('./components/Api');
 const remote = require("@electron/remote")
-const listElementBuilder = require('../js/ListElementBuilder.js');
-const PopupDisplay = require('./PopupDisplay.js');
+const listElementBuilder = require('./components/ListElementBuilder');
+const PopupDisplay = require('./components/PopupDisplay');
 
 contextBridge.exposeInMainWorld('electron', {
     getGlobal: (name) => remote.getGlobal(name),
@@ -15,7 +15,7 @@ contextBridge.exposeInMainWorld('electron', {
 
     listElementBuilder: listElementBuilder,
     addGameDisplay: () => PopupDisplay.AddGameDisplay(),
-    gameDetailDisplay: (game) => PopupDisplay.gameDetailDisplay(game),
+    gameDetailDisplay: (game, index) => PopupDisplay.gameDetailDisplay(game, index),
 })
 
 contextBridge.exposeInMainWorld('token', {
@@ -33,4 +33,5 @@ contextBridge.exposeInMainWorld('api', {
     userGames: () => Api.userGames(),
 
     addGameByLink: (link) => Api.addGameByLink(link),
+    removeGame: (id) => Api.removeGame(id),
 })
