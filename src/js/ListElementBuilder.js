@@ -1,5 +1,6 @@
 const imageSize = 120;
 
+let listIndex = 0;
 let steamID = 0;
 let gameTitle = "Title";
 let originalPrice = 0;
@@ -13,6 +14,10 @@ module.exports = {
         originalPrice = 0;
         discountPrice = 0;
         discountPercent = 0;
+    },
+
+    setListIndex: (index) => {
+        listIndex = index;
     },
 
     setSteamID: (id) => {
@@ -34,12 +39,12 @@ module.exports = {
 
     GenerateListElement: () => {
         let html = `
-        <tr class="d-flex align-items-center">
+        <tr class="d-flex align-items-center" onclick="OpenGameDetails(${listIndex})">
         <td>              
             <img src="https://cdn.akamai.steamstatic.com/steam/apps/${steamID}/header.jpg" width="${imageSize}" height="${imageSize * (215/460)}"/>
         </td>
 
-        <td class="col-5">                          
+        <td class="col">                          
             <span class="game-title">${gameTitle}</span>              
         </td>`
 
