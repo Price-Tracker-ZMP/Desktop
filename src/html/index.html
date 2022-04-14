@@ -16,6 +16,11 @@
 
 
   <body>
+    <div id="fullscreenDim" style="display: none;">
+      <div id="popupWindow" class="col-8" onclick="event.stopPropagation();">        
+      </div>
+    </div>
+    
     <nav class="navbar navbar-light bg-light">
       <span class="navbar-brand">
         <img src="#" width="30" height="30" class="d-inline-block align-top" alt="">
@@ -28,47 +33,14 @@
       </div>
     </nav>
 
-    <div class="container my-2">
+    <div class="container my-2">      
+
       <table class="table table-hover">
         <tbody  id="gameListTable">
-          <!-- <tr class="d-flex align-items-center">
-            <td>              
-              <img src="#" width="100" height="47"/>                    
-            </td>
-
-            <td class="col-5">                          
-              <span class="game-title">Game Title</span>              
-            </td>
-
-            <td class="col mr-3 d-flex flex-row-reverse">              
-              <div class="discountPrice">
-                <div class="discountPrice">€4.99</div>
-              </div>              
-            </td>
-
-          </tr>
-
-          <tr class="d-flex align-items-center">
-            <td>              
-              <img src="#" width="100" height="47"/>                    
-            </td>
-
-            <td class="col-5">                          
-              <span class="game-title">Game Title</span>              
-            </td>
-
-            <td class="col mr-3 d-flex align-items-center flex-row-reverse">              
-              <div class="discountPrice">
-                <div class="discountPrice originalPrice text-muted">€9.99</div><br>
-                <div class="discountPrice">€4.99</div>
-              </div>
-              <div class="discountPercent">
-                -45%
-              </div>
-            </td>
-          </tr> -->
         </tbody>
       </table>
+
+      <button id="addGameButton" class="addGame btn btn-secondary"><span>+</span></button>
     </div>
 
   </body>

@@ -70,6 +70,11 @@ class ApiService {
     }).catch((err) => {console.log(err.response)}); 
   }
 
+  async addGameByLink(link) {
+    await axios.post(ApiURL + '/add-game/by-link', { link: link }, await getConfig()).then(response => {
+      LogResponse(response);
+    })
+  }
 }
 
 function LogResponse(response)
