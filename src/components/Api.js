@@ -75,6 +75,13 @@ class ApiService {
       LogResponse(response);
     })
   }
+
+  async removeGame(id) {
+    console.log(id);
+    await axios.delete(ApiURL + '/delete/game/' + id, await getConfig()).then(response => {
+      LogResponse(response);
+    })
+  }
 }
 
 function LogResponse(response)

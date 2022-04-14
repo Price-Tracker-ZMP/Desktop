@@ -63,7 +63,7 @@ module.exports = {
                     <div class="priceDisplay originalPrice text-muted">${FormatCurrency(originalPrice)}</div><br>
                     <div class="priceDisplay">${FormatCurrency(discountPrice)}</div>
                 </div>
-                <div class="discountPercent">
+                <div class="text-success discountPercent">
                 -${discountPercent}%
                 </div>
             </td>

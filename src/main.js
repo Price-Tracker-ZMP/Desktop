@@ -16,9 +16,9 @@ const createLoadingWindow = () => {
     resizable: false,
     titleBarStyle: 'hidden', 
     autoHideMenuBar: true,
-    show: false,
+    //show: false,
     webPreferences: {
-      preload: path.join(__dirname, 'js/preload.js')
+      preload: path.join(__dirname, '/preload.js')
   }
   });
 
@@ -26,7 +26,7 @@ const createLoadingWindow = () => {
     loadingWindow.show();
   })
 
-  windowSetup(loadingWindow, 'html/loading.html');
+  windowSetup(loadingWindow, 'Loading/loading.html');
 };
 
 const createLoginWindow = () => {
@@ -37,11 +37,11 @@ const createLoginWindow = () => {
     minHeight: 450,  
     autoHideMenuBar: true,
     webPreferences: {
-      preload: path.join(__dirname, 'js/preload.js')
+      preload: path.join(__dirname, '/preload.js')
   }
   });
 
-  windowSetup(loginWindow, 'html/login.html');
+  windowSetup(loginWindow, 'Login/login.html');
   
 };
 
@@ -55,10 +55,10 @@ const createMainWindow = () => {
     webPreferences: {
       //nodeIntegration: true,
       //contextIsolation: false,
-      preload: path.join(__dirname, 'js/preload.js')
+      preload: path.join(__dirname, '/preload.js')
   }
   });
-  windowSetup(mainWindow, 'html/index.html');
+  windowSetup(mainWindow, 'Index/index.html');
 };
 
 const windowSetup = (window, page) => {

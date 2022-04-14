@@ -62,8 +62,16 @@ popupBackground.addEventListener('click', () => {
 // Clicking on any of the list elements
 function OpenGameDetails(value) {
   OpenPopup();
-  popupWindow.innerHTML = window.electron.gameDetailDisplay(GameList[value]);
+  popupWindow.innerHTML = window.electron.gameDetailDisplay(GameList[value], value);
 }
+
+function stopObserving(index) {
+  window.api.removeGame(GameList[index].steam_appid).then(result => {
+    UpdateGameList();
+    ClosePopup();
+  });
+}
+
 
 // Clicking on the + buton
 addGameButton.addEventListener('click', () => {
@@ -72,18 +80,20 @@ addGameButton.addEventListener('click', () => {
 
   linkInput = document.getElementById('linkInput');
   linkInputButton = document.getElementById('linkInputButton')
-  function keyPressLinkInput(e)
-  {    
-      e = e || window.event;
-      if (e.keyCode == 13)
-      {
-        linkInputButton.click();
-      }    
-  }
 
   linkInputButton.addEventListener('click', () => {
     window.api.addGameByLink(linkInput.value).then(result => {
       UpdateGameList();  
+      ClosePopup();
     });
   })
 })
+
+function keyPressLinkInput(e)
+{    
+    e = e || window.event;
+    if (e.keyCode == 13)
+    {
+      linkInputButton.click();
+    }    
+}
