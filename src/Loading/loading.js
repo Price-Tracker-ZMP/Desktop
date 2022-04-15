@@ -10,9 +10,7 @@ if (!INFINITE_LOADING) {
       if (result) {
         window.electron.newWindow('index');
       }
-      else
-        window.electron.newWindow('login');
     });
-
   }
+  window.electron.newWindow('login');
 }

@@ -18,7 +18,7 @@ class ApiService {
       if (response.data.status)
         token = response.data.content;
 
-    }).catch((err) => {console.log(err.response)});
+    }).catch((err) => {console.log(err.response); return false; });
 
     if (token != null) {
       await keytar.setPassword("PriceTracker", "userToken", token);
@@ -35,9 +35,10 @@ class ApiService {
       password: password
     }
 
-    await axios.post(ApiURL + '/Auth/Register', registerBody).then(response => {
-      LogResponse(response);   
-    }).catch((err) => {console.log(err.response)});
+    return await axios.post(ApiURL + '/Auth/Register', registerBody).then(response => {
+      LogResponse(response);
+      return response.data.status;
+    }).catch((err) => { console.log(err.response); return false; });
   }
 
   async logout() {

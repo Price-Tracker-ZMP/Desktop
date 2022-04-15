@@ -1,14 +1,17 @@
 ToggleForm('registerForm', false);
+window.electron.toasts.setToastObject(document.getElementById('toast'));
 
 const emailLoginInput = document.getElementById('emailLoginInput');
 const passLoginInput = document.getElementById('passLoginInput');
 
 const loginButton = document.getElementById("loginButton");
 loginButton.addEventListener('click', () => {
-  window.api.login(emailLoginInput.value, passLoginInput.value).then(result => {
+  window.api.login(emailLoginInput.value, passLoginInput.value).then(result => {    
     if (result)
-      window.electron.newWindow('index');
-  });  
+      window.electron.newWindow('index');        
+    else
+      window.electron.toasts.ToastFailure("Login failed"); 
+  })
 });
 
 function searchKeyPress(e)
@@ -30,7 +33,14 @@ const passRegisterInput = document.getElementById('passRegisterInput');
 
 const registerButton = document.getElementById("registerButton");
 registerButton.addEventListener('click', () => {
-  window.api.register(emailRegisterInput.value, passRegisterInput.value);  
+  window.api.register(emailRegisterInput.value, passRegisterInput.value).then(result => {
+    if (result) {
+      window.electron.toasts.ToastSuccess("Account created!"); 
+      SwitchBetweenLoginRegister();
+    }
+    else
+      window.electron.toasts.ToastFailure("Registration failed"); 
+  })
 });
 
 const switchViewPage = document.getElementById("switchViewPageLink");

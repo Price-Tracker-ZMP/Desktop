@@ -1,4 +1,7 @@
 let GameList = {}; 
+window.electron.toasts.setToastObject(document.getElementById('toast'));
+
+window.electron.toasts.ToastSuccess("Logged in!");
 
 const logoutButton = document.getElementById("logoutButton");
 logoutButton.addEventListener('click', () => {
@@ -69,6 +72,7 @@ function stopObserving(index) {
   window.api.removeGame(GameList[index].steam_appid).then(result => {
     UpdateGameList();
     ClosePopup();
+    window.electron.toasts.ToastSuccess("Game removed");
   });
 }
 
@@ -85,6 +89,7 @@ addGameButton.addEventListener('click', () => {
     window.api.addGameByLink(linkInput.value).then(result => {
       UpdateGameList();  
       ClosePopup();
+      window.electron.toasts.ToastSuccess("Game added!");
     });
   })
 })
