@@ -16,7 +16,7 @@ const createLoadingWindow = () => {
     resizable: false,
     titleBarStyle: 'hidden', 
     autoHideMenuBar: true,
-    //show: false,
+    show: false,
     webPreferences: {
       preload: path.join(__dirname, '/preload.js')
   }

@@ -45,14 +45,6 @@ class ApiService {
     ipcRenderer.send('set-authenticated', false)
   }
 
-  /*async userInfo() {
-    keytar.getPassword("PriceTracker", "userToken").then(token => {
-      axios.post(ApiURL + '/user-info/user-email', { token: token }).then(response => {
-        LogResponse(response);   
-      }).catch((err) => {console.log(err.response)});
-    });    
-  }*/
-
   async userInfo() {    
     return axios.get(ApiURL + '/user-info/user-email', await getConfig()).then(response => {
       LogResponse(response);   
