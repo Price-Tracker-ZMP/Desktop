@@ -115,14 +115,14 @@ let SteamSearchInterval;
 
 let IntervalSpeed = 1000;
 let IntervalDuration;
+
+UpdateSteamGameList();
+
 function keyPressSteamSearch(e)
 {  
-  if (SteamGameList == null) {
-    UpdateSteamGameList();
 
-    searchPlaceholder.innerHTML = "Fetching game list...";
-    searchPlaceholder.classList.remove('hide');
-  }
+  searchPlaceholder.innerHTML = "Fetching game list...";
+  searchPlaceholder.classList.remove('hide');
 
   IntervalDuration = 1000;
 
@@ -157,6 +157,5 @@ function keyPressSteamSearch(e)
 }
 
 function UpdateSteamGameList() {
-  console.log('oh no');
   SteamGameList = window.api.getSteamGameList();
 }
