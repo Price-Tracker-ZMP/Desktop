@@ -64,8 +64,9 @@ class ApiService {
   }
 
   async addGameByLink(link) {
-    await axios.post(ApiURL + '/add-game/by-link', { link: link }, await getConfig()).then(response => {
+    return await axios.post(ApiURL + '/add-game/by-link', { link: link }, await getConfig()).then(response => {
       LogResponse(response);
+      return response.data.status;
     })
   }
 

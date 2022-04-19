@@ -12,5 +12,6 @@ if (!INFINITE_LOADING) {
       }
     });
   }
-  window.electron.newWindow('login');
+  else
+    window.electron.newWindow('login');
 }

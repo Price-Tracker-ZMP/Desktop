@@ -89,7 +89,10 @@ addGameButton.addEventListener('click', () => {
     window.api.addGameByLink(linkInput.value).then(result => {
       UpdateGameList();  
       ClosePopup();
-      window.electron.toasts.ToastSuccess("Game added!");
+      if (result)
+        window.electron.toasts.ToastSuccess("Game added!");
+      else
+        window.electron.toasts.ToastFailure("There was an error while adding the game");
     });
   })
 })
