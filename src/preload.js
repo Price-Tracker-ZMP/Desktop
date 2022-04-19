@@ -2,6 +2,7 @@ const { contextBridge, ipcRenderer, ipcMain } = require('electron')
 const keytar = require('keytar');
 const Api = require('./components/Api');
 const remote = require("@electron/remote")
+const toasts = require('./components/Toasts/Toasts')
 const listElementBuilder = require('./components/ListElementBuilder');
 const PopupDisplay = require('./components/PopupDisplay');
 
@@ -13,6 +14,7 @@ contextBridge.exposeInMainWorld('electron', {
     },
     showLoading: () => ipcRenderer.send('show-loading'),
 
+    toasts: toasts,
     listElementBuilder: listElementBuilder,
     addGameDisplay: () => PopupDisplay.AddGameDisplay(),
     gameDetailDisplay: (game, index) => PopupDisplay.gameDetailDisplay(game, index),

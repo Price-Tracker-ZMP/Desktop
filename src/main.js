@@ -17,6 +17,7 @@ const createLoadingWindow = () => {
     titleBarStyle: 'hidden', 
     autoHideMenuBar: true,
     show: false,
+    icon: path.join(__dirname, 'assets/pricetrackerlogo.png'),
     webPreferences: {
       preload: path.join(__dirname, '/preload.js')
   }
@@ -36,6 +37,7 @@ const createLoginWindow = () => {
     minWidth: 600,
     minHeight: 450,  
     autoHideMenuBar: true,
+    icon: path.join(__dirname, 'assets/pricetrackerlogo.png'),
     webPreferences: {
       preload: path.join(__dirname, '/preload.js')
   }
@@ -50,8 +52,9 @@ const createMainWindow = () => {
     width: 1200,
     height: 800,
     minWidth: 600,
-    minHeight: 400,    
+    minHeight: 400,
     autoHideMenuBar: true,
+    icon: path.join(__dirname, 'assets/pricetrackerlogo.png'),
     webPreferences: {
       //nodeIntegration: true,
       //contextIsolation: false,

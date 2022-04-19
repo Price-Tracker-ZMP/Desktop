@@ -1,5 +1,5 @@
 {
-  "name": "PriceTracker",
+  "name": "price-tracker",
   "productName": "Steam Price Tracker",
   "version": "1.0.0",
   "description": "Electron Application to track Steam game prices",
