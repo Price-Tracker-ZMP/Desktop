@@ -76,6 +76,13 @@ class ApiService {
       LogResponse(response);
     })
   }
+
+  async getSteamGameList() {
+    return await axios.get(ApiURL + '/get-steam-games-list/').then(response => {
+      LogResponse(response);
+      return response.data.content;
+    })
+  }
 }
 
 function LogResponse(response)

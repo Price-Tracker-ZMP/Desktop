@@ -18,6 +18,7 @@ contextBridge.exposeInMainWorld('electron', {
     listElementBuilder: listElementBuilder,
     addGameDisplay: () => PopupDisplay.AddGameDisplay(),
     gameDetailDisplay: (game, index) => PopupDisplay.gameDetailDisplay(game, index),
+    quickSearchTable: (gameList) => PopupDisplay.QuickSearchTable(gameList),
 })
 
 contextBridge.exposeInMainWorld('token', {
@@ -36,4 +37,6 @@ contextBridge.exposeInMainWorld('api', {
 
     addGameByLink: (link) => Api.addGameByLink(link),
     removeGame: (id) => Api.removeGame(id),
+
+    getSteamGameList: () => Api.getSteamGameList(),
 })

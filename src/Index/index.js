@@ -85,6 +85,10 @@ addGameButton.addEventListener('click', () => {
   linkInput = document.getElementById('linkInput');
   linkInputButton = document.getElementById('linkInputButton')
 
+  searchGameInput = document.getElementById('searchGameInput')
+  searchResultTable = document.getElementById('searchResultTable')
+  searchPlaceholder = document.getElementById('searchPlaceholder')
+
   linkInputButton.addEventListener('click', () => {
     window.api.addGameByLink(linkInput.value).then(result => {
       UpdateGameList();  
@@ -104,4 +108,55 @@ function keyPressLinkInput(e)
     {
       linkInputButton.click();
     }    
+}
+
+let SteamGameList;
+let SteamSearchInterval;
+
+let IntervalSpeed = 1000;
+let IntervalDuration;
+function keyPressSteamSearch(e)
+{  
+  if (SteamGameList == null) {
+    UpdateSteamGameList();
+
+    searchPlaceholder.innerHTML = "Fetching game list...";
+    searchPlaceholder.classList.remove('hide');
+  }
+
+  IntervalDuration = 1000;
+
+  if (SteamSearchInterval != null)
+    return;
+
+  SteamSearchInterval = setInterval(() => {
+
+    SteamGameList.then(gameList => {
+      searchResult = gameList.filter(game => game.name.toLowerCase().includes(searchGameInput.value.toLowerCase()));
+      
+      searchResultTable.innerHTML = window.electron.quickSearchTable(searchResult.slice(0, 19));
+
+      if (searchResult.length == 0) {
+        searchPlaceholder.innerHTML = "No results...";
+        searchPlaceholder.classList.remove('hide');
+      }
+      else
+        searchPlaceholder.classList.add('hide');
+    })
+
+    IntervalDuration -= IntervalSpeed;
+
+    if (IntervalDuration <= 0) {
+      clearInterval(SteamSearchInterval);
+      SteamSearchInterval = null;
+    }
+
+  }, IntervalSpeed);
+  
+
+}
+
+function UpdateSteamGameList() {
+  console.log('oh no');
+  SteamGameList = window.api.getSteamGameList();
 }
