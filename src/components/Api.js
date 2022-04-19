@@ -62,6 +62,13 @@ class ApiService {
         return false;
     }).catch((err) => {console.log(err.response)}); 
   }
+  
+  async addGameById(id) {
+    return await axios.post(ApiURL + '/add-game/by-id', { gameId: id }, await getConfig()).then(response => {
+      LogResponse(response);
+      return response.data.status;
+    })
+  }
 
   async addGameByLink(link) {
     return await axios.post(ApiURL + '/add-game/by-link', { link: link }, await getConfig()).then(response => {

@@ -40,7 +40,7 @@ module.exports = {
 
             <label for="linkInput" class="form-label">Search Steam</label>
             <div class="input-group">
-                <input type="text" class="form-control" id="searchGameInput" placeholder="Search..." onkeypress="keyPressSteamSearch(event)">
+                <input type="text" class="form-control" id="searchGameInput" placeholder="Search..." oninput="keyPressSteamSearch(event)">
 
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" type="button" tabindex="-1"><img src="../assets/Search_Icon.png" height=20></button>
@@ -58,8 +58,8 @@ module.exports = {
         let html = "";
         gameList.forEach(game => {
             html += `
-                    <tr>
-                        <td><img src="https://cdn.akamai.steamstatic.com/steam/apps/${game.appid}/header.jpg" width="${searchImageSize}" height="${searchImageSize * (215/460)}" onerror="this.onerror=null;this.src='https://cdn.akamai.steamstatic.com/steam/apps/0/header.jpg';"></td>
+                    <tr onclick="addGameById(${game.appid})">
+                        <td><img src="https://cdn.akamai.steamstatic.com/steam/apps/${game.appid}/header.jpg" width="${searchImageSize}" height="${searchImageSize * (215/460)}" onerror="this.onerror=null; steamListRemove(${game.appid}); this.parentElement.parentElement.remove();"></td>
                         <td>${game.name}</td>
                     </tr>
             `

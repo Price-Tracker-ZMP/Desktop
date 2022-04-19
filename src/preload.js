@@ -35,6 +35,7 @@ contextBridge.exposeInMainWorld('api', {
     userInfo: () => Api.userInfo(),
     userGames: () => Api.userGames(),
 
+    addGameById: (id) => Api.addGameById(id),
     addGameByLink: (link) => Api.addGameByLink(link),
     removeGame: (id) => Api.removeGame(id),
 

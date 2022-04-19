@@ -76,6 +76,14 @@ function stopObserving(index) {
   });
 }
 
+function GameAdded(result) {
+  UpdateGameList();  
+  ClosePopup();
+  if (result)
+    window.electron.toasts.ToastSuccess("Game added!");
+  else
+    window.electron.toasts.ToastFailure("There was an error while adding the game");
+}
 
 // Clicking on the + buton
 addGameButton.addEventListener('click', () => {
@@ -91,12 +99,7 @@ addGameButton.addEventListener('click', () => {
 
   linkInputButton.addEventListener('click', () => {
     window.api.addGameByLink(linkInput.value).then(result => {
-      UpdateGameList();  
-      ClosePopup();
-      if (result)
-        window.electron.toasts.ToastSuccess("Game added!");
-      else
-        window.electron.toasts.ToastFailure("There was an error while adding the game");
+      GameAdded(result)
     });
   })
 })
@@ -113,27 +116,42 @@ function keyPressLinkInput(e)
 let SteamGameList;
 let SteamSearchInterval;
 
-let IntervalSpeed = 1000;
-let IntervalDuration;
+let IntervalSpeed = 100;
+let IntervalDuration = 500;
+
+function UpdateSteamGameList() {
+  window.api.getSteamGameList().then(list => {
+    SteamGameList = list;
+  });
+}
 
 UpdateSteamGameList();
 
-function keyPressSteamSearch(e)
-{  
-
+function keyPressSteamSearch()
+{ 
+  if (SteamGameList == null)
+    return;
+  
+  if (searchGameInput.value == "") {
+    searchResultTable.innerHTML = "";
+    searchPlaceholder.classList.add('hide');
+    return;
+  }
+    
+  
   searchPlaceholder.innerHTML = "Fetching game list...";
   searchPlaceholder.classList.remove('hide');
 
-  IntervalDuration = 1000;
+  if (IntervalDuration < 500)
+    IntervalDuration += 500;
 
   if (SteamSearchInterval != null)
     return;
 
   SteamSearchInterval = setInterval(() => {
 
-    SteamGameList.then(gameList => {
-      searchResult = gameList.filter(game => game.name.toLowerCase().includes(searchGameInput.value.toLowerCase()));
-      
+    if (IntervalDuration % 500 == 0) {      
+      searchResult = SteamGameList.filter(game => game.name.toLowerCase().includes(searchGameInput.value.toLowerCase()));
       searchResultTable.innerHTML = window.electron.quickSearchTable(searchResult.slice(0, 19));
 
       if (searchResult.length == 0) {
@@ -141,8 +159,10 @@ function keyPressSteamSearch(e)
         searchPlaceholder.classList.remove('hide');
       }
       else
-        searchPlaceholder.classList.add('hide');
-    })
+        searchPlaceholder.classList.add('hide');      
+
+
+    }
 
     IntervalDuration -= IntervalSpeed;
 
@@ -153,9 +173,14 @@ function keyPressSteamSearch(e)
 
   }, IntervalSpeed);
   
-
 }
 
-function UpdateSteamGameList() {
-  SteamGameList = window.api.getSteamGameList();
+function steamListRemove(id) {
+  SteamGameList = SteamGameList.filter(game => game.appid !== id);
+}
+
+function addGameById(id) {
+  window.api.addGameById(id).then(result => {
+    GameAdded(result);
+  })
 }
