@@ -1,3 +1,5 @@
+const UpdateGameListInterval = 15000;
+
 let GameList = {}; 
 window.electron.toasts.setToastObject(document.getElementById('toast'));
 
@@ -40,6 +42,49 @@ function GenerateGameList() {  // Generate the html for the list
 }
 
 UpdateGameList();
+
+setInterval(() => {
+  let OldList = GameList
+  let sale = false
+  let changedGameName = ""
+  let multiple = false
+  UpdateGameList().then(() => {
+
+    OldList.forEach(game => {
+      let foundGame = GameList.find(e => e._id == game._id)
+      if (foundGame) {
+        if (foundGame.priceFinal != game.priceFinal || foundGame.priceInitial != game.priceInitial) {          
+          if (foundGame.priceFinal < game.priceFinal || foundGame.priceInitial < game.priceInitial) sale = true
+          
+          if (changedGameName == "")
+            changedGameName = game.name
+          else 
+            multiple = true
+        }
+      }
+    })
+
+    let NotificationText;
+    if (changedGameName != "")
+    {
+      if (multiple) 
+        NotificationText = "Multiple games you're following have changed their price"      
+      else
+      if (sale)
+        NotificationText = changedGameName + " just went on sale!"
+      else
+        NotificationText = changedGameName + " changed its price"
+
+      new Notification("Price Changes Found", {  
+        body: NotificationText,
+        icon: "../assets/pricetrackerlogo.png",
+      }).onclick = () => window.electron.showWindow()
+      
+    }    
+
+  })
+}, UpdateGameListInterval)
+
 
 popupBackground = document.getElementById('fullscreenDim');
 popupWindow = document.getElementById('popupWindow');
