@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, Menu, Tray } = require('electron');
+const { app, BrowserWindow, ipcMain, Menu, Tray, Notification } = require('electron');
 const path = require('path');
 const keytar = require("keytar");
 require('@electron/remote/main').initialize();
@@ -7,6 +7,11 @@ require('@electron/remote/main').initialize();
 if (require('electron-squirrel-startup')) {
   // eslint-disable-line global-require
   app.quit();
+}
+
+if (process.platform === 'win32')
+{
+    app.setAppUserModelId(app.name);
 }
 
 let currentWindow;
@@ -85,6 +90,11 @@ const createMainWindow = () => {
 
   currentWindow = mainWindow;
 
+  mainWindow.webContents.on('new-window', function(e, url) {
+    e.preventDefault();
+    require('electron').shell.openExternal(url);
+  });
+  
   mainWindow.on('close', function(event) {
     if (!app.isQuitting) { 
       event.preventDefault();

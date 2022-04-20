@@ -3,6 +3,12 @@ window.electron.toasts.setToastObject(document.getElementById('toast'));
 
 window.electron.toasts.ToastSuccess("Logged in!");
 
+new Notification("title", {  
+  body: "test body",
+  icon: "../assets/pricetrackerlogo.png",
+});
+
+
 const logoutButton = document.getElementById("logoutButton");
 logoutButton.addEventListener('click', () => {
   window.api.logout().then(result => {

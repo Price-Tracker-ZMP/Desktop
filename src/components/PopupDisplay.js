@@ -12,6 +12,9 @@ module.exports = {
                         <h5>${game.name}</h5>
                     </td>
                     <td class="col">
+                        <a href="https://store.steampowered.com/app/${game.steam_appid}/" target="_blank"><img src="../assets/external-link.png" height=24></a>
+                    </td>
+                    <td class="col">
                         <img src="https://cdn.akamai.steamstatic.com/steam/apps/${game.steam_appid}/header.jpg" width="${imageSize}" height="${imageSize * (215/460)}">
                     </td>        
                 </tr>
