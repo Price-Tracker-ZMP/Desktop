@@ -152,7 +152,7 @@ function keyPressSteamSearch()
 
     if (IntervalDuration % 500 == 0) {      
       searchResult = SteamGameList.filter(game => game.name.toLowerCase().includes(searchGameInput.value.toLowerCase()));
-      searchResultTable.innerHTML = window.electron.quickSearchTable(searchResult.slice(0, 19));
+      searchResultTable.innerHTML = window.electron.quickSearchTable(searchResult.slice(0, 29));
 
       if (searchResult.length == 0) {
         searchPlaceholder.innerHTML = "No results...";
