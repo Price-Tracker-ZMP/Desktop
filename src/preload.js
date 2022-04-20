@@ -13,7 +13,7 @@ contextBridge.exposeInMainWorld('electron', {
         ipcRenderer.send('open-' + name);
         win.close();        
     },
-    showLoading: () => ipcRenderer.send('show-loading'),
+    showWindow: () => ipcRenderer.send('show-window'),
 
     toasts: toasts,
     listElementBuilder: listElementBuilder,
