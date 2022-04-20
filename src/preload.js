@@ -9,8 +9,9 @@ const PopupDisplay = require('./components/PopupDisplay');
 contextBridge.exposeInMainWorld('electron', {
     getGlobal: (name) => remote.getGlobal(name),
     newWindow: (name) => {
+        let win = remote.getCurrentWindow();
         ipcRenderer.send('open-' + name);
-        remote.getCurrentWindow().close();
+        win.close();        
     },
     showLoading: () => ipcRenderer.send('show-loading'),
 

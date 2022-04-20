@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, Menu, Tray } = require('electron');
 const path = require('path');
 const keytar = require("keytar");
 require('@electron/remote/main').initialize();
@@ -7,6 +7,23 @@ require('@electron/remote/main').initialize();
 if (require('electron-squirrel-startup')) {
   // eslint-disable-line global-require
   app.quit();
+}
+
+let currentWindow;
+let mainWindow;
+const gotTheLock = app.requestSingleInstanceLock()
+    
+if (!gotTheLock) {
+  app.quit()
+} else {
+  app.on('second-instance', (event, commandLine, workingDirectory) => {
+    // Someone tried to run a second instance, we should focus our window.
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) mainWindow.restore()
+      mainWindow.show()
+      mainWindow.focus()
+    }
+  })
 }
 
 const createLoadingWindow = () => {
@@ -27,6 +44,8 @@ const createLoadingWindow = () => {
     loadingWindow.show();
   })
 
+  currentWindow = loadingWindow;
+
   windowSetup(loadingWindow, 'Loading/loading.html');
 };
 
@@ -43,12 +62,14 @@ const createLoginWindow = () => {
   }
   });
 
+  currentWindow = loginWindow;
+
   windowSetup(loginWindow, 'Login/login.html');
   
 };
 
 const createMainWindow = () => {
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
     minWidth: 600,
@@ -61,8 +82,22 @@ const createMainWindow = () => {
       preload: path.join(__dirname, '/preload.js')
   }
   });
+
+  currentWindow = mainWindow;
+
+  mainWindow.on('close', function(event) {
+    if (!app.isQuitting) { 
+      event.preventDefault();
+      mainWindow.hide();
+    }
+    app.isQuitting = false;
+    return false;
+  })
+
+
   windowSetup(mainWindow, 'Index/index.html');
 };
+
 
 const windowSetup = (window, page) => {
   require('@electron/remote/main').enable(window.webContents);
@@ -85,10 +120,37 @@ ipcMain.on('set-authenticated', (event, state) => {
   global.isAuthenticated = state;
 });
 
-app.on('ready', createLoadingWindow);
+//app.on('ready', createLoadingWindow);
+app.whenReady().then(() => {
+  createLoadingWindow();
+  var contextMenu = Menu.buildFromTemplate([
+    { label: 'Show App', click:  function(){
+        if (currentWindow)
+            currentWindow.show();
+    } },
+    { label: 'Quit', click:  function(){
+        app.isQuitting = true;
+        app.quit();
+    } }
+  ]);
+  tray = new Tray(__dirname + '/assets/pricetrackerlogo.png')
+  tray.setContextMenu(contextMenu);
+})
 
-ipcMain.on('open-index', createMainWindow);
-ipcMain.on('open-login', createLoginWindow);
+app.on('before-quit', function () {
+  app.isQuiting = true;
+});
+
+ipcMain.on('open-index', function() {
+  createMainWindow();
+});
+ipcMain.on('open-login', function() {  
+  if (mainWindow) {
+    app.isQuitting = true;
+    mainWindow.close();
+  }
+  createLoginWindow();
+});
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
