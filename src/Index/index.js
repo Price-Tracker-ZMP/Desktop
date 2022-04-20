@@ -76,6 +76,14 @@ function stopObserving(index) {
   });
 }
 
+function GameAdded(result) {
+  UpdateGameList();  
+  ClosePopup();
+  if (result)
+    window.electron.toasts.ToastSuccess("Game added!");
+  else
+    window.electron.toasts.ToastFailure("There was an error while adding the game");
+}
 
 // Clicking on the + buton
 addGameButton.addEventListener('click', () => {
@@ -85,14 +93,13 @@ addGameButton.addEventListener('click', () => {
   linkInput = document.getElementById('linkInput');
   linkInputButton = document.getElementById('linkInputButton')
 
+  searchGameInput = document.getElementById('searchGameInput')
+  searchResultTable = document.getElementById('searchResultTable')
+  searchPlaceholder = document.getElementById('searchPlaceholder')
+
   linkInputButton.addEventListener('click', () => {
     window.api.addGameByLink(linkInput.value).then(result => {
-      UpdateGameList();  
-      ClosePopup();
-      if (result)
-        window.electron.toasts.ToastSuccess("Game added!");
-      else
-        window.electron.toasts.ToastFailure("There was an error while adding the game");
+      GameAdded(result)
     });
   })
 })
@@ -104,4 +111,76 @@ function keyPressLinkInput(e)
     {
       linkInputButton.click();
     }    
+}
+
+let SteamGameList;
+let SteamSearchInterval;
+
+let IntervalSpeed = 100;
+let IntervalDuration = 500;
+
+function UpdateSteamGameList() {
+  window.api.getSteamGameList().then(list => {
+    SteamGameList = list;
+  });
+}
+
+UpdateSteamGameList();
+
+function keyPressSteamSearch()
+{ 
+  if (SteamGameList == null)
+    return;
+  
+  if (searchGameInput.value == "") {
+    searchResultTable.innerHTML = "";
+    searchPlaceholder.classList.add('hide');
+    return;
+  }
+    
+  
+  searchPlaceholder.innerHTML = "Fetching game list...";
+  searchPlaceholder.classList.remove('hide');
+
+  if (IntervalDuration < 500)
+    IntervalDuration += 500;
+
+  if (SteamSearchInterval != null)
+    return;
+
+  SteamSearchInterval = setInterval(() => {
+
+    if (IntervalDuration % 500 == 0) {      
+      searchResult = SteamGameList.filter(game => game.name.toLowerCase().includes(searchGameInput.value.toLowerCase()));
+      searchResultTable.innerHTML = window.electron.quickSearchTable(searchResult.slice(0, 29));
+
+      if (searchResult.length == 0) {
+        searchPlaceholder.innerHTML = "No results...";
+        searchPlaceholder.classList.remove('hide');
+      }
+      else
+        searchPlaceholder.classList.add('hide');      
+
+
+    }
+
+    IntervalDuration -= IntervalSpeed;
+
+    if (IntervalDuration <= 0) {
+      clearInterval(SteamSearchInterval);
+      SteamSearchInterval = null;
+    }
+
+  }, IntervalSpeed);
+  
+}
+
+function steamListRemove(id) {
+  SteamGameList = SteamGameList.filter(game => game.appid !== id);
+}
+
+function addGameById(id) {
+  window.api.addGameById(id).then(result => {
+    GameAdded(result);
+  })
 }

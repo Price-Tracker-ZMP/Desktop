@@ -81,3 +81,12 @@ body {
   text-align: center;
   margin: 15px;
 }
+
+.search-result {
+  overflow: auto;
+  height: calc(100% - 200px);
+}
+
+.hide {
+  display: none;
+}
