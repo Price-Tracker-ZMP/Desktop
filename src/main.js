@@ -134,7 +134,13 @@ app.whenReady().then(() => {
     } }
   ]);
   tray = new Tray(__dirname + '/assets/pricetrackerlogo.png')
-  tray.setContextMenu(contextMenu);
+  tray.setToolTip("Steam Price Tracker")
+  tray.setContextMenu(contextMenu)
+
+  tray.on('double-click', function() {
+    if (currentWindow)
+      currentWindow.show();
+  })
 })
 
 app.on('before-quit', function () {
