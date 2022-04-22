@@ -13,6 +13,7 @@ logoutButton.addEventListener('click', () => {
   
 });
 
+
 const emailDisplay = document.getElementById('emailDisplay');
 window.api.userInfo().then(email =>
   emailDisplay.innerHTML = email);
@@ -111,6 +112,33 @@ popupBackground.addEventListener('click', () => {
 function OpenGameDetails(value) {
   OpenPopup();
   popupWindow.innerHTML = window.electron.gameDetailDisplay(GameList[value], value);
+  
+  window.api.getPriceHistory(GameList[value].steam_appid).then(result => {
+    let dataset = {
+      dates: [],
+      prices: [],      
+    };
+
+    for (i = 0; i < result.dateFinal.length; i++) {
+      d = new Date(result.dateFinal[i]);      
+      dataset.dates.push(d.getDate()+'-'+(d.getMonth()+1)+'-'+ d.getFullYear());      
+      dataset.prices.push(result.priceFinal[i] / 100 + Math.random() * 200)
+    }
+
+    const data = {
+      labels:  dataset.dates,  
+      datasets: [{
+        data: dataset.prices,
+        fill: false,
+        borderColor: 'rgb(75, 192, 192)',
+      }],
+    };
+    
+    window.electron.Chart(document.getElementById("chartCanvas"), data);
+    
+  });
+
+  
 }
 
 function stopObserving(index) {

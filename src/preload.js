@@ -5,6 +5,8 @@ const remote = require("@electron/remote")
 const toasts = require('./components/Toasts/Toasts')
 const listElementBuilder = require('./components/ListElementBuilder');
 const PopupDisplay = require('./components/PopupDisplay');
+const Chart = require('chart.js')
+const ChartConfig = require('./components/ChartConfig')
 
 contextBridge.exposeInMainWorld('electron', {
     getGlobal: (name) => remote.getGlobal(name),
@@ -20,6 +22,11 @@ contextBridge.exposeInMainWorld('electron', {
     addGameDisplay: () => PopupDisplay.AddGameDisplay(),
     gameDetailDisplay: (game, index) => PopupDisplay.gameDetailDisplay(game, index),
     quickSearchTable: (gameList) => PopupDisplay.QuickSearchTable(gameList),
+
+    Chart: (ctx, data) => {     
+        config = ChartConfig.getChartConfig(data);
+        new Chart(ctx, config) 
+    },
 })
 
 contextBridge.exposeInMainWorld('token', {
@@ -40,5 +47,6 @@ contextBridge.exposeInMainWorld('api', {
     addGameByLink: (link) => Api.addGameByLink(link),
     removeGame: (id) => Api.removeGame(id),
 
+    getPriceHistory: (id) => Api.getPriceHistory(id),
     getSteamGameList: () => Api.getSteamGameList(),
 })
