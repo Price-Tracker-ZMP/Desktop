@@ -57,6 +57,15 @@ body {
   min-height: 300px;
   padding: 20px;
   border-radius: 8px;
+  overflow: auto;
+}
+
+.canvasDiv { 
+  height: calc(100% - 175px);
+  width: calc(100% - 20px);
+  max-height: 340px;
+  max-width: 740px;
+  min-width: 200px;
 }
 
 .stopObservingButton {
@@ -85,7 +94,7 @@ body {
 
 .search-result {
   overflow: auto;
-  height: calc(100% - 200px);
+  height: calc(100% - 210px)
 }
 
 .hide {

@@ -19,8 +19,8 @@ module.exports = {
                     </td>        
                 </tr>
             </table>
-            <div>
-                test
+            <div class="canvasDiv">
+                <canvas id="chartCanvas"></canvas>
             </div>
 
             <button class="btn btn-danger stopObservingButton" onclick="stopObserving(${index})">Stop Observing</button>

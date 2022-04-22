@@ -78,9 +78,15 @@ class ApiService {
   }
 
   async removeGame(id) {
-    console.log(id);
     await axios.delete(ApiURL + '/delete/game/' + id, await getConfig()).then(response => {
       LogResponse(response);
+    })
+  }
+
+  async getPriceHistory(id) {
+    return await axios.get(ApiURL + '/get/game-price-history/' + id).then(response => {
+      LogResponse(response)
+      return response.data.content
     })
   }
 
