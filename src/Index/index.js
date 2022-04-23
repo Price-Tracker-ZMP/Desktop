@@ -78,7 +78,7 @@ setInterval(() => {
 
       new Notification("Price Changes Found", {  
         body: NotificationText,
-        icon: "../assets/pricetrackerlogo.png",
+        icon: "../assets/pricetrackerlogo.ico",
       }).onclick = () => window.electron.showWindow()
       
     }    

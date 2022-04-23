@@ -39,7 +39,7 @@ const createLoadingWindow = () => {
     titleBarStyle: 'hidden', 
     autoHideMenuBar: true,
     show: false,
-    icon: path.join(__dirname, 'assets/pricetrackerlogo.png'),
+    icon: path.join(__dirname, 'assets/pricetrackerlogo.ico'),
     webPreferences: {
       preload: path.join(__dirname, '/preload.js')
   }
@@ -57,7 +57,7 @@ const createLoginWindow = () => {
     minWidth: 600,
     minHeight: 450,  
     autoHideMenuBar: true,
-    icon: path.join(__dirname, 'assets/pricetrackerlogo.png'),
+    icon: path.join(__dirname, 'assets/pricetrackerlogo.ico'),
     webPreferences: {
       preload: path.join(__dirname, '/preload.js')
   }
@@ -76,7 +76,7 @@ const createMainWindow = () => {
     minWidth: 600,
     minHeight: 400,
     autoHideMenuBar: true,
-    icon: path.join(__dirname, 'assets/pricetrackerlogo.png'),
+    icon: path.join(__dirname, 'assets/pricetrackerlogo.ico'),
     webPreferences: {
       //nodeIntegration: true,
       //contextIsolation: false,
@@ -139,7 +139,7 @@ app.whenReady().then(() => {
         app.quit();
     } }
   ]);
-  tray = new Tray(__dirname + '/assets/pricetrackerlogo.png')
+  tray = new Tray(__dirname + '/assets/pricetrackerlogo.ico')
   tray.setToolTip("Steam Price Tracker")
   tray.setContextMenu(contextMenu)
 
