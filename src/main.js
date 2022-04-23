@@ -3,6 +3,8 @@ const path = require('path');
 const keytar = require("keytar");
 require('@electron/remote/main').initialize();
 
+const DEV_ENV = true;
+
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   // eslint-disable-line global-require
@@ -41,8 +43,9 @@ const createLoadingWindow = () => {
     show: false,
     icon: path.join(__dirname, 'assets/pricetrackerlogo.ico'),
     webPreferences: {
-      preload: path.join(__dirname, '/preload.js')
-  }
+      preload: path.join(__dirname, '/preload.js'),
+      devTools: DEV_ENV
+    }
   });
 
   currentWindow = loadingWindow;
@@ -59,8 +62,9 @@ const createLoginWindow = () => {
     autoHideMenuBar: true,
     icon: path.join(__dirname, 'assets/pricetrackerlogo.ico'),
     webPreferences: {
-      preload: path.join(__dirname, '/preload.js')
-  }
+      preload: path.join(__dirname, '/preload.js'),
+      devTools: DEV_ENV
+    }
   });
 
   currentWindow = loginWindow;
@@ -80,8 +84,9 @@ const createMainWindow = () => {
     webPreferences: {
       //nodeIntegration: true,
       //contextIsolation: false,
-      preload: path.join(__dirname, '/preload.js')
-  }
+      preload: path.join(__dirname, '/preload.js'),
+      devTools: DEV_ENV
+    }
   });
 
   currentWindow = mainWindow;
