@@ -5,7 +5,7 @@ const emailLoginInput = document.getElementById('emailLoginInput');
 const passLoginInput = document.getElementById('passLoginInput');
 
 const loginButton = document.getElementById("loginButton");
-loginButton.addEventListener('click', () => {
+loginButton.addEventListener('click', () => {  
   window.api.login(emailLoginInput.value, passLoginInput.value).then(result => {    
     if (result)
       window.electron.newWindow('index');        

@@ -23,7 +23,7 @@ module.exports = {
                 <canvas id="chartCanvas"></canvas>
             </div>
 
-            <button class="btn btn-danger stopObservingButton" onclick="stopObserving(${index})">Stop Observing</button>
+            <button id="stopObserving" class="btn btn-danger stopObservingButton" onclick="stopObserving(${index})">Stop Observing</button>
         `
     },
 

@@ -13,7 +13,6 @@ logoutButton.addEventListener('click', () => {
   
 });
 
-
 const emailDisplay = document.getElementById('emailDisplay');
 window.api.userInfo().then(email =>
   emailDisplay.innerHTML = email);
@@ -98,6 +97,7 @@ function OpenPopup() {
 }
  
 function ClosePopup() {
+  popupWindow.innerHTML = "";
   popupBackground.style.display = 'none'; 
   logoutButton.tabIndex = 0;
   addGameButton.tabIndex = 0;
@@ -169,7 +169,7 @@ addGameButton.addEventListener('click', () => {
   searchGameInput = document.getElementById('searchGameInput')
   searchResultTable = document.getElementById('searchResultTable')
   searchPlaceholder = document.getElementById('searchPlaceholder')
-
+    
   linkInputButton.addEventListener('click', () => {
     window.api.addGameByLink(linkInput.value).then(result => {
       GameAdded(result)

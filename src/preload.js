@@ -11,9 +11,9 @@ const ChartConfig = require('./components/ChartConfig')
 contextBridge.exposeInMainWorld('electron', {
     getGlobal: (name) => remote.getGlobal(name),
     newWindow: (name) => {
-        let win = remote.getCurrentWindow();
+        //let win = remote.getCurrentWindow();
         ipcRenderer.send('open-' + name);
-        win.close();        
+        //win.close();        
     },
     showWindow: () => ipcRenderer.send('show-window'),
 
