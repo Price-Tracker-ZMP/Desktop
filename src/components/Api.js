@@ -2,6 +2,7 @@ const axios = require('axios');
 const keytar = require('keytar');
 const { ipcRenderer } = require('electron');
 const ApiURL = "https://zmp-price-tracker.herokuapp.com"
+const remote = require("@electron/remote")
 
 class ApiService {  
 
@@ -12,21 +13,21 @@ class ApiService {
     }
 
     let token;
-    await axios.post(ApiURL + '/Auth/Login', loginBody).then(response => {
+    let result = await axios.post(ApiURL + '/Auth/Login', loginBody).then(response => {
       LogResponse(response);
       
       if (response.data.status)
         token = response.data.content;
+      return response.data.status;
 
     }).catch((err) => {console.log(err.response); return false; });
-
-    if (token != null) {
-      await keytar.setPassword("PriceTracker", "userToken", token);
     
-      ipcRenderer.send('set-authenticated', true)
-      return true;
+    if (token != null) {
+      //keytar.setPassword("PriceTracker", "userToken", token)
+      ipcRenderer.send('set-token', token)
+      ipcRenderer.send('set-authenticated', true)      
     }
-    else return false;
+    return result;
   }
 
   async register(email, password) {  
@@ -42,7 +43,7 @@ class ApiService {
   }
 
   async logout() {
-    await keytar.deletePassword("PriceTracker", "userToken");
+    keytar.deletePassword("PriceTracker", "userToken");
     ipcRenderer.send('set-authenticated', false)
   }
 
@@ -64,17 +65,18 @@ class ApiService {
   }
   
   async addGameById(id) {
-    return await axios.post(ApiURL + '/add-game/by-id', { gameId: id }, await getConfig()).then(response => {
+    return axios.post(ApiURL + '/add-game/by-id', { gameId: id }, await getConfig()).then(response => {
       LogResponse(response);
       return response.data.status;
     })
   }
 
   async addGameByLink(link) {
-    return await axios.post(ApiURL + '/add-game/by-link', { link: link }, await getConfig()).then(response => {
+    return axios.post(ApiURL + '/add-game/by-link', { link: link }, await getConfig()).then(response => {
       LogResponse(response);
-      return response.data.status;
+      return response.data.status;    
     })
+    
   }
 
   async removeGame(id) {
@@ -105,14 +107,15 @@ function LogResponse(response)
 }
 
 function getConfig() {
-  return keytar.getPassword("PriceTracker", "userToken").then(token => {
+  let token = remote.getGlobal('token');
+  //return keytar.getPassword("PriceTracker", "userToken").then(token => {
     let config = {
       headers: {
         Authentication: token,
       }
     };
     return config;        
-  });
+  //});
 }
 
 

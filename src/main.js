@@ -3,7 +3,7 @@ const path = require('path');
 const keytar = require("keytar");
 require('@electron/remote/main').initialize();
 
-const DEV_ENV = true;
+const DEV_ENV = false;
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -123,8 +123,15 @@ const windowSetup = (window, page) => {
 
 global.isAuthenticated = false;
 keytar.getPassword("PriceTracker", "userToken").then(result => {
-  if (result != undefined)
+  if (result != undefined) {
     global.isAuthenticated = true;
+    global.token = result;
+  }
+});
+
+
+ipcMain.on('set-token', (event, token) => {
+  global.token = token;
 });
 
 ipcMain.on('set-authenticated', (event, state) => {
@@ -159,14 +166,20 @@ app.on('before-quit', function () {
 });
 
 ipcMain.on('open-index', function() {
+  let win = currentWindow;
   createMainWindow();
+  win.close();
 });
-ipcMain.on('open-login', function() {  
+
+ipcMain.on('open-login', function() {   
+  let win = currentWindow; 
+  createLoginWindow();  
   if (mainWindow) {
     app.isQuitting = true;
     mainWindow.close();
   }
-  createLoginWindow();
+  if (win)
+    win.close();
 });
 
 ipcMain.on('show-window', () => {
