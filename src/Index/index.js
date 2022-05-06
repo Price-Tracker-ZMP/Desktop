@@ -122,7 +122,7 @@ function OpenGameDetails(value) {
     for (i = 0; i < result.dateFinal.length; i++) {
       d = new Date(result.dateFinal[i]);      
       dataset.dates.push(d.getDate()+'-'+(d.getMonth()+1)+'-'+ d.getFullYear());      
-      dataset.prices.push(result.priceFinal[i] / 100 + Math.random() * 200)
+      dataset.prices.push(result.priceFinal[i] / 100)
     }
 
     const data = {

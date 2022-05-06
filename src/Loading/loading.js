@@ -1,5 +1,5 @@
 setTimeout(function() {
-  window.electron.showLoading();
+  window.electron.showWindow();
 }, 500);
 
 const INFINITE_LOADING = false;
