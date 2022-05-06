@@ -1,9 +1,10 @@
 const { test, expect } = require('@playwright/test');
 const { _electron: electron } = require('playwright');
 const keytar = require('keytar');
+require('dotenv').config();
 
-const loginEmail = "admin@admin.com";
-const loginPass = "admin";
+const loginEmail = process.env['TEST_ACC'];
+const loginPass = process.env['TEST_PASS'];
 
 let electronApp;
 let CurrentPage;
