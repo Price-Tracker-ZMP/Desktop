@@ -123,7 +123,6 @@ const windowSetup = (window, page) => {
 
 global.isAuthenticated = false;
 keytar.getPassword("PriceTracker", "userToken").then(result => {
-  console.log(result)
   if (result != undefined) {
     global.isAuthenticated = true;
     global.token = result;
